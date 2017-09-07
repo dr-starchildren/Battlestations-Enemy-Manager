@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<!---
+    This is a random enemy generator for the board game 
+battlestations second edition. It was created based on the request by the author in 
+the rule book on page 160.
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details. 
+see <http://www.gnu.org/licenses/>
+
+Author: starchildren
+Date: 2017-09-04
+-->
+<html lang="en">
+<head>
+  <title>Battlestations Enemy Manager</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body>
+
+<div class="container-fluid">
+  <h1>Battlestations Enemy Manager</h1>
+</div>
+
+<form class="form-horizontal">
+    <div class="form-group">
+        <label class="control-label col-sm-2" for="md">Mission Difficulty</label>
+        <div class="col-sm-2">
+            <select class="form-control" id="md">
+            <option>0</option>
+            <option>1</option>
+            <option>2</option>
+            <option>3</option>
+            <option>4</option>
+            <option>5</option>
+            <option>6</option>
+            <option>7</option>
+            <option>8</option>
+            <option>9</option>
+            <option>10</option>
+            </select>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-sm-2" for="players">Number of Players</label>
+        <div class="col-sm-2">
+            <select class="form-control" id="players">
+            <option>1</option>
+            <option>2</option>
+            <option>3</option>
+            <option>4</option>
+            <option>5</option>
+            <option>6</option>
+            <option>7</option>
+            <option>8</option>
+            <option>9</option>
+            <option>10</option>
+            </select>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-sm-2" for="species">Enemy Species</label>
+        <div class="col-sm-2">
+            <select class="form-control" id="species">
+                <option>Bot</option>
+                <option>Blootian</option>
+                <option>Canosian</option>
+                <option>Diploid</option>
+                <option>Fungaloid</option>
+                <option>Human</option>
+                <option>Kerbite</option>
+                <option>Silicoid</option>
+                <option>Tentac</option>
+                <option>Trundlian</option>
+                <option>Vomeg</option>
+                <option>Whistler</option>
+                <option>Xeloxian</option>
+                <option>Zoallan</option>
+                <option>Avianoid</option>
+                <option>Cheetahoid</option>
+                <option>Crocodillian</option>
+                <option>Elephantoid</option>
+                <option>Felinoids</option>
+                <option>Gorilloids</option>
+                <option>Lupinoids</option>
+                <option>Lapinoid</option>
+                <option>Rhinoceroid</option>
+                <option>Reptilianoid</option>
+                <option>Testudinoid</option>
+                <option>Ursinoid</option>
+            </select>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-2">
+        <label><input type="checkbox" value="" id="random_species"> Pick Random Species?</label>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+            <button class="btn btn-default" id="submit">Submit</button>
+        </div>
+    </div>
+</form>
+
+<div id="enemiesDiv">
+
+</div>
+    
+<script>
+    // Mission Difficulty Tables
+    const MD0 = {"2":[1,2,0], "3":[1,2,0], "4":[1,2,0], "5":[1,2,0], "6":[1,2,0], "7":[1,2,0], "8":[1,2,0], "9":[1,2,0], "10":[1,2,0], "11":[1,2,0], "12":[1,2,0]};
+    const MD1 = {"2":[1,2,1], "3":[1,2,1], "4":[1,2,1], "5":[1,3,0], "6":[1,3,0], "7":[1,3,0], "8":[1,3,0], "9":[2,2,0], "10":[2,2,0], "11":[2,2,0], "12":[2,2,0]};
+    const MD2 = {"2":[1,3,1], "3":[1,2,2], "4":[2,3,1], "5":[1,4,1], "6":[1,3,2], "7":[2,4,1], "8":[2,3,2], "9":[1,4,2], "10":[1,5,1], "11":[3,4,1], "12":[2,4,2]};
+    const MD3 = {"2":[2,5,1], "3":[2,3,3], "4":[1,5,2], "5":[3,4,2], "6":[1,4,3], "7":[3,5,1], "8":[1,6,1], "9":[2,5,2], "10":[2,4,3], "11":[2,6,1], "12":[3,5,2]};
+    const MD4 = {"2":[2,4,4], "3":[1,6,3], "4":[1,5,4], "5":[4,6,1], "6":[3,6,2], "7":[3,5,3], "8":[2,6,3], "9":[3,7,1], "10":[3,4,4], "11":[2,7,2], "12":[4,6,2]};
+    const MD5 = {"2":[4,5,3], "3":[1,7,3], "4":[3,6,3], "5":[4,7,1], "6":[2,5,4], "7":[2,8,1], "8":[2,7,3], "9":[4,6,3], "10":[2,6,4], "11":[4,7,2], "12":[2,8,2]};
+    const MD6 = {"2":[4,5,4], "3":[3,7,3], "4":[3,6,4], "5":[1,9,1], "6":[3,8,2], "7":[4,8,1], "8":[1,7,4], "9":[2,9,1], "10":[2,8,3], "11":[2,7,4], "12":[4,6,4]};
+    const MD7 = {"2":[4,8,2], "3":[3,9,1], "4":[2,6,5], "5":[3,7,4], "6":[4,9,1], "7":[4,7,4], "8":[1,7,5], "9":[2,9,3], "10":[4,6,5], "11":[3,8,4], "12":[3,7,5]};
+    const MD8 = {"2":[1,8,5], "3":[4,7,5], "4":[3,8,5], "5":[2,7,6], "6":[4,9,4], "7":[4,8,5], "8":[2,9,5], "9":[4,7,6], "10":[3,8,6], "11":[1,9,6], "12":[3,9,6]};
+    const MD9 = {"2":[2,8,7], "3":[4,9,6], "4":[3,8,7], "5":[4,8,7], "6":[2,9,7], "7":[3,8,8], "8":[4,8,8], "9":[5,8,7], "10":[4,9,7], "11":[5,8,8], "12":[2,9,8]};
+    const MD10 = {"2":[3,9,8], "3":[3,9,9], "4":[4,9,8], "5":[4,9,9], "6":[5,9,7], "7":[5,9,8], "8":[5,9,9], "9":[6,9,6], "10":[6,9,7], "11":[6,9,8], "12":[6,9,9]};
+
+    // Athletics Tables
+    const ATH1 = {"2":["Sonic Beam","Kit","g"],"3":["Needler","Kit"],"4":["Slug Gun","Kit"],"5":["Ion Bore","g"],"6":["Disintegrator","Scope"],"7":["Blaster","Kit","g"],"8":["Laser", "Kit"],"9":["Nerve Disruptor","Kit"],"10":["Particle Gun","Kit"],"11":["Voltrex"],"12":["Plasma Pistol","gggg"]};
+    const ATH2 = {"2":["Knife","Stun","Kit"],"3":["Sword","ggg"],"4":["Kit","Flyntlock","Flyntlock","EMP grenade"],"5":["VibraKnife","Kit","g"],"6":["Phase Pick"],"7":["Butt","Kit","g"],"8":["Energy Blade","gg"],"9":["Plasma Dagger","Kit"],"10":["Arc Laser","ggg"],"11":["EMP pistol"],"12":["Lightning Rod","Kit"]};
+    const ATH3 = {"2":["MedJack","Aggro","Charme","Detox ","Dull","Equilout","FlyBoy","Numb ","Patches ","Roid","Stim","StunGone ","SupSci","TecKnow"],"3":["Skeletal Enhancement","Slug Machine Gun"],"4":["Cyberfoot","Pro Chip"],"5":["Cybergyros"],"6":["Cyberhand", "Pro Chip"],"7":["Autonurse","Pro Chip","gg"],"8":["Athletics Skill Chip", "Combat Skill Chip", "Science Skill Chip", "Engineering Skill Chip", "Piloting Skill Chip", "MagBoots"],"9":["Cyberhook","Pro Chip"],"10":["Kit","Pro Chip","Satchel Charge"],"11":["Skeletal Enhancement","Plasma Projector"],"12":["Butt","Kit"]};
+    const ATH4 = {"2":["Kit","Kit"],"3":["Kit","Kit"],"4":["Kit","Kit"],"5":["Kit","Kit"],"6":["Kit","Kit"],"7":["Kit","Kit"],"8":["Kit","Kit"],"9":["Kit","Kit"],"10":["Kit","Kit"],"11":["Kit","Kit"],"12":["Kit","Kit"]};
+    
+    // Profession Kits
+    const MARINE_KITS = ["Vibraknife","MedKit","JetPack","EVA","WristComp"];
+    const SCI_KITS = ["MedKit","JetPack","ToolKit","EVA","WristComp"];
+    const ENG_KITS = ["ToolKit","JetPack","MedKit","EVA","WristComp"];
+    const PILOT_KITS = ["JetPack",",ToolKit","MedKit","EVA","WristComp"];
+    const GRENADES = ["Frag Grenade", "Energy Grenade", "EMP Grenade", "Stun Grenade", "Fritzer Grenade"];
+
+    const SPECIES = {"Bot":[4,8,1,4,0],"Blootian":[0,7,5,6,0],"Canosian":[8,8,9999,5,0],"Diploid":[4,8,2,3,1], "Fungaloid":[8,9,2,4,0],"Human":[5,8,2,5,1],"Kerbite":[5,9,5,6,1],
+    "Silicoid":[9,7,1,4,0], "Tentac":[6,9,9999,6,0],"Trundlian":[0,8,7,2,0],"Vomeg":[7,7,3,5,1],"Whistler":[9,7,4,5,0],
+    "Xeloxian":[5,8,6,2,1],"Zoallan":[4,9,3,7,0],"Avianoid":[3,9,2,4,0],"Cheetahoid":[4,8,2,9,1],
+    "Crocodillian":[5,7,2,5,0],"Elephantoid":[8,5,3,5,0],"Felinoid":[6,8,2,6,1],"Gorilloid":[6,7,4,2,1],
+    "Lupinoid":[5,8,2,6,1],"Lapinoid":[3,9,2,7,1],"Rhinoceroid":[7,6,2,6,0],"Reptilianoid":[4,8,2,5,0],
+    "Testudinoid":[3,8,2,4,0],"Ursinoid":[8,7,2,5,0]};
+
+    const CORE_PROFESSIONS = ["Marine", "Scientist", "Engineer", "Pilot"];
+
+    class Character {
+        constructor(species, base_stats, rank, profession, skills){
+            this.species = species;
+            this.hp_base = base_stats[0];
+            this.target_number=base_stats[1];
+            this.hands = base_stats[2];
+            this.move = base_stats[3];
+            this.can_wear_armor = base_stats[4]
+            this.wearing_armor=false;
+            this.rank = rank;
+            this.profession=profession;
+            if (profession==="Marine"){
+			    this.skills=[skills[0],skills[1],skills[2],skills[2],skills[2]];
+                this.label="label-danger";
+            }
+		    else if (profession==="Engineer"){
+    			this.skills=[skills[0],skills[2],skills[1],skills[2],skills[2]];
+                this.label="label-primary";
+            }
+            else if (profession==="Pilot"){
+    			this.skills=[skills[0],skills[2],skills[2],skills[1],skills[2]];
+                this.label="label-warning";
+            }
+	    	else if (profession==="Scientist"){
+    			this.skills=[skills[0],skills[2],skills[2],skills[2],skills[1]];
+                this.label="label-success";
+            }
+
+            this.carry = skills[0]*10;
+            this.equipment = [];
+            
+            var ath = parseInt(skills[0]);
+            // if can wear armor, add it and reduce athletics for rolls
+            if (ath>1 && this.can_wear_armor){
+                ath=ath-1
+			    this.equipment.push("Armor");
+			    this.wearing_armor=true;
+            }
+            // add shield if enough hands and athletics
+            if (parseInt(this.hands)>2 && parseInt(skills[0])>2){
+                ath=ath-1
+                this.equipment.push("Shield");
+            }
+            
+            // Stuff for silicoids
+            if (this.species==="Silicoid"){
+                this.equipment.push("Butt");
+                this.equipment.push("Jet Pack");
+            }
+            
+            for (var i=0; i<ath; i ++){
+                
+                var r = (Math.floor(Math.random() * 6) + 1) + (Math.floor(Math.random() * 6) + 1); 
+                r = r.toString();
+                if (i==0){
+                    this.equipment = this.equipment.concat(ATH1[r]);
+                }
+                else if (i==1){
+                    this.equipment = this.equipment.concat(ATH2[r]);
+                }
+                else if (i==2){
+                    this.equipment = this.equipment.concat(ATH3[r]);
+                }
+                else{
+                    this.equipment = this.equipment.concat(ATH4[r]);
+                }
+            }
+            
+            var kit = [];
+            // Select correct kit tables and swap out pro chips
+            var index = this.equipment.indexOf("Pro Chip");
+            if (this.profession == "Marine"){
+			    kit = MARINE_KITS.slice();
+			    if (index !== -1)
+				    this.equipment[index]="Combat Skill Chip";
+            }
+		    else if (this.profession=="Engineer"){
+			    kit = ENG_KITS.slice();
+			    if (index !== -1)
+                    this.equipment[index]="Engineering Skill Chip";
+            }
+		    else if (this.profession=="Pilot"){
+			    kit = PILOT_KITS.slice();
+			    if (index !== -1)
+                    this.equipment[index]="Piloting Skill Chip";
+            }
+		    else if (this.profession=="Scientist"){
+			    kit = SCI_KITS.slice();
+			    if (index !== -1)
+                    this.equipment[index]="Science Skill Chip";
+            }
+            
+            // Replace kits with profession specific items
+		    var num_kits=0;
+            for (var i=0; i<this.equipment.length; i++){
+                if (this.equipment[i]=="Kit")
+                    num_kits++;
+            }
+            console.log(species);
+            console.log(num_kits);
+            if (num_kits > 0){
+                for (var i=0; i<num_kits; i++){
+                    if (i<3)
+                        this.equipment[this.equipment.indexOf("Kit")] = kit[i];
+                    else if (i==3){
+                        this.equipment[this.equipment.indexOf("Kit")] = kit[i];
+                        this.equipment.push(kit[4]);
+                    }
+                    else{
+                        this.equipment.splice(this.equipment.indexOf("Kit"),1);
+                        this.equipment = this.equipment.concat(GRENADES);
+                    }
+                        
+                }
+            }
+            
+            // Replace 'g' with random grenades
+            // TODO: Allow grenade selection by user
+            while (this.equipment.indexOf("g")!==-1){
+    			this.equipment[this.equipment.indexOf("g")] = GRENADES[Math.floor(Math.random() * GRENADES.length)];
+            }
+            while (this.equipment.indexOf("gg")!==-1){
+                this.equipment[this.equipment.indexOf("gg")] = GRENADES[Math.floor(Math.random() * GRENADES.length)];
+                this.equipment.push(GRENADES[Math.floor(Math.random() * GRENADES.length)]);
+            }
+            while (this.equipment.indexOf("ggg")!==-1){
+                this.equipment[this.equipment.indexOf("ggg")] = GRENADES[Math.floor(Math.random() * GRENADES.length)];
+                this.equipment.push(GRENADES[Math.floor(Math.random() * GRENADES.length)]);
+                this.equipment.push(GRENADES[Math.floor(Math.random() * GRENADES.length)]);
+            }
+            while (this.equipment.indexOf("gggg")!==-1){
+			    this.equipment[this.equipment.indexOf("gggg")] = GRENADES[Math.floor(Math.random() * GRENADES.length)];
+                this.equipment.push(GRENADES[Math.floor(Math.random() * GRENADES.length)]);
+                this.equipment.push(GRENADES[Math.floor(Math.random() * GRENADES.length)]);
+                this.equipment.push(GRENADES[Math.floor(Math.random() * GRENADES.length)]);
+            }
+            
+            // Niche case of a crew not having a medkit
+            if (this.profession=="Scientist" && this.equipment.indexOf("MedKit")==-1){
+    			this.equipment.push("MedKit");
+			    if (this.equipment.indexOf("Ion Bore")!==-1)
+				    this.equipment[this.equipment.indexOf("Ion Bore")]="Blaster";
+			    else if (this.equipment.indexOf("Disintegrator")!==-1)
+                    this.equipment[this.equipment.indexOf("Disintegrator")]="Blaster";
+                else if (this.equipment.indexOf("Voltrex")!==-1)
+                    this.equipment[this.equipment.indexOf("Voltrex")]="Blaster";
+                else if (this.equipment.indexOf("Plasma Pistol")!==-1)
+                    this.equipment[this.equipment.indexOf("Plasma Pistol")]="Blaster";
+            }
+            
+        };
+
+        print(){
+            
+            var sheet = '<div class="row"><div class="col-sm-12"><span class="label '+this.label+'">Profession</span> '+this.profession+'</div></div>';
+            sheet+= '<div class="row"><div class="col-sm-12">Species: '+this.species+'</div></div>';
+            sheet += '<div class="row"><div class="col-sm-2"><span class="label label-default">HP</span></div>' +
+            '<div class="col-sm-2"><span class="label label-default">Move</span></div>'+
+            '<div class="col-sm-2"><span class="label label-default">Hands</span></div>'+
+            '<div class="col-sm-2"><span class="label label-default">Tgt</span></div>'+
+            '<div class="col-sm-2"><span class="label label-default">Carry</span></div></div>'+
+            '<div class="row"><div class="col-sm-2 text-center">'+ this.hp_base + '</div>'+
+            '<div class="col-sm-2 text-center">'+this.move+'</div>'+
+            '<div class="col-sm-2 text-center">'+this.hands+'</div>'+
+            '<div class="col-sm-2 text-center">'+this.target_number+'</div>'+
+            '<div class="col-sm-2 text-center">'+this.carry+'</div></div>';
+            sheet+='<div class="row"><div class="col-sm-2"><span class="label label-default">Ath</span></div>'+
+            '<div class="col-sm-2"><span class="label label-default">Com</span></div>' +
+            '<div class="col-sm-2"><span class="label label-default">Eng</span></div>' +
+            '<div class="col-sm-2"><span class="label label-default">Pil</span></div>' +
+            '<div class="col-sm-2"><span class="label label-default">Sci</span></div></div>' +
+            '<div class="row"><div class="col-sm-2 text-center">'+ this.skills[0] +'</div>'+
+            '<div class="col-sm-2 text-center">'+ this.skills[1] +'</div>'+
+            '<div class="col-sm-2 text-center">'+ this.skills[2] +'</div>'+
+            '<div class="col-sm-2 text-center">'+ this.skills[3] +'</div>'+
+            '<div class="col-sm-2 text-center">'+ this.skills[4] +'</div></div>'+
+            '<div class="row"><div class="col-sm-12"><span class="label label-default">Equipment</span></div></div>' +
+            '<div class="row"><div class="col-sm-12">'+this.equipment.join(", ")+'</div></div>';
+            return sheet;
+        };
+    };
+
+    function shuffle(array) {
+        var m = array.length, t, i;
+        while (m > 0) 
+        {
+	        i = Math.floor(Math.random() * m--);
+            t = array[m];
+            array[m] = array[i];
+            array[i] = t;
+        }
+        return array;
+    };
+
+    $('#submit').click(function(){
+        // Get the values in the form fields
+        var md = document.getElementById("md").value;
+        var players = document.getElementById("players").value;
+        var species = document.getElementById("species").value;
+        var random_species = $('#random_species').is(':checked');
+        var enemy_skills = [];
+        
+        // Roll 2d6
+        var roll = (Math.floor(Math.random() * 6) + 1) + (Math.floor(Math.random() * 6) + 1);
+        roll = roll.toString();
+        
+        // Apply roll to the appropriate Mission Difficulty table to get enemy stats
+        switch(md){
+            case "0":
+                enemy_skills = MD0[roll];
+                break;
+            case "1":
+                enemy_skills = MD1[roll];
+                break;
+            case "2":
+                enemy_skills = MD2[roll];
+                break;
+            case "3":
+                enemy_skills = MD3[roll];
+                break;
+            case "4":
+                enemy_skills = MD4[roll];
+                break;
+            case "5":
+                enemy_skills = MD5[roll];
+                break;
+            case "6":
+                enemy_skills = MD6[roll];
+                break;
+            case "7":
+                enemy_skills = MD7[roll];
+                break;
+            case "8":
+                enemy_skills = MD8[roll];
+                break;
+            case "9":
+                enemy_skills = MD9[roll];
+                break;
+            case "10":
+                enemy_skills = MD10[roll];
+        }
+
+        // If picking a random species, select one from const dictionary
+        if (random_species){
+            var rando = Object.keys(SPECIES);
+            var key = Math.floor(Math.random() * rando.length);
+            species = rando[key];
+        }
+
+        var profession_tracker = CORE_PROFESSIONS.slice();
+        shuffle(profession_tracker);
+
+        var enemies_list = []
+        for (var i=0; i< parseInt(players); i++){
+            if (i%4==0)
+                shuffle(profession_tracker);
+            enemies_list.push(new Character(species,SPECIES[species],md,profession_tracker[i%4],enemy_skills));
+        }
+        $("#enemiesDiv").empty();
+        for (var j=0; j<enemies_list.length;j++){
+            $("#enemiesDiv").append('<div class="col-sm-offset-1 col-sm-3" style="border: 1px solid black">'+enemies_list[j].print()+'</div>');
+        }
+        return false;
+
+
+    });
+
+</script>
+</body>
+</html>
