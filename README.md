@@ -5,6 +5,5 @@ Select the Mission Difficulty (MD), number of players, and enemy species (or che
 Click submit and your enemy crew will appear, including equipment.
 
 Notes:
-1. Skill chips are not accounted for in the stats.
-2. Grenades are randomly selected if rolled.
-3. Blootian limbs are assumed to be 4.
+1. Grenades are randomly selected if rolled.
+2. Blootian limbs are assumed to be 4.
