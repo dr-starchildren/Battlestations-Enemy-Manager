@@ -136,7 +136,11 @@ Date: 2017-09-04
     // Athletics Tables
     const ATH1 = {"2":["Sonic Beam","Kit","g"],"3":["Needler","Kit"],"4":["Slug Gun","Kit"],"5":["Ion Bore","g"],"6":["Disintegrator","Scope"],"7":["Blaster","Kit","g"],"8":["Laser", "Kit"],"9":["Nerve Disruptor","Kit"],"10":["Particle Gun","Kit"],"11":["Voltrex"],"12":["Plasma Pistol","gggg"]};
     const ATH2 = {"2":["Knife","Stun","Kit"],"3":["Sword","ggg"],"4":["Kit","Flyntlock","Flyntlock","EMP grenade"],"5":["VibraKnife","Kit","g"],"6":["Phase Pick"],"7":["Butt","Kit","g"],"8":["Energy Blade","gg"],"9":["Plasma Dagger","Kit"],"10":["Arc Laser","ggg"],"11":["EMP pistol"],"12":["Lightning Rod","Kit"]};
-    const ATH3 = {"2":["MedJack","Aggro","Charme","Detox ","Dull","Equilout","FlyBoy","Numb ","Patches ","Roid","Stim","StunGone ","SupSci","TecKnow"],"3":["Skeletal Enhancement","Slug Machine Gun"],"4":["Cyberfoot","Pro Chip"],"5":["Cybergyros"],"6":["Cyberhand", "Pro Chip"],"7":["Autonurse","Pro Chip","gg"],"8":["Athletics Skill Chip", "Combat Skill Chip", "Science Skill Chip", "Engineering Skill Chip", "Piloting Skill Chip", "MagBoots"],"9":["Cyberhook","Pro Chip"],"10":["Kit","Pro Chip","Satchel Charge"],"11":["Skeletal Enhancement","Plasma Projector"],"12":["Butt","Kit"]};
+    const ATH3 = {"2":["MedJack","Aggro","Charme","Detox ","Dull","Equilout","FlyBoy","Numb ","Patches ","Roid","Stim","StunGone ","SupSci","TecKnow"],
+    "3":["Skeletal Enhancement","Slug Machine Gun"],"4":["Cyberfoot","Pro Chip"],"5":["Cybergyros"],
+    "6":["Cyberhand", "Pro Chip"],"7":["Autonurse","Pro Chip","gg"],
+    "8":["Athletics Skill Chip", "Combat Skill Chip", "Science Skill Chip", "Engineering Skill Chip", "Piloting Skill Chip", "MagBoots"],
+    "9":["Cyberhook","Pro Chip"],"10":["Kit","Pro Chip","Satchel Charge"],"11":["Skeletal Enhancement","Plasma Projector"],"12":["Butt","Kit"]};
     const ATH4 = {"2":["Kit","Kit"],"3":["Kit","Kit"],"4":["Kit","Kit"],"5":["Kit","Kit"],"6":["Kit","Kit"],"7":["Kit","Kit"],"8":["Kit","Kit"],"9":["Kit","Kit"],"10":["Kit","Kit"],"11":["Kit","Kit"],"12":["Kit","Kit"]};
     
     // Profession Kits
@@ -166,6 +170,7 @@ Date: 2017-09-04
             this.wearing_armor=false;
             this.rank = rank;
             this.profession=profession;
+            
             if (profession==="Marine"){
 			    this.skills=[skills[0],skills[1],skills[2],skills[2],skills[2]];
                 this.label="label-danger";
@@ -227,24 +232,28 @@ Date: 2017-09-04
             // Select correct kit tables and swap out pro chips
             var index = this.equipment.indexOf("Pro Chip");
             if (this.profession == "Marine"){
-			    kit = MARINE_KITS.slice();
-			    if (index !== -1)
+			    kit = MARINE_KITS;
+			    if (index !== -1){
 				    this.equipment[index]="Combat Skill Chip";
+                }
             }
 		    else if (this.profession=="Engineer"){
-			    kit = ENG_KITS.slice();
-			    if (index !== -1)
+			    kit = ENG_KITS;
+			    if (index !== -1){
                     this.equipment[index]="Engineering Skill Chip";
+                }
             }
 		    else if (this.profession=="Pilot"){
-			    kit = PILOT_KITS.slice();
-			    if (index !== -1)
+			    kit = PILOT_KITS;
+			    if (index !== -1){
                     this.equipment[index]="Piloting Skill Chip";
+                }
             }
 		    else if (this.profession=="Scientist"){
-			    kit = SCI_KITS.slice();
-			    if (index !== -1)
+			    kit = SCI_KITS;
+			    if (index !== -1){
                     this.equipment[index]="Science Skill Chip";
+                }
             }
             
             // Replace kits with profession specific items
@@ -253,8 +262,6 @@ Date: 2017-09-04
                 if (this.equipment[i]=="Kit")
                     num_kits++;
             }
-            console.log(species);
-            console.log(num_kits);
             if (num_kits > 0){
                 for (var i=0; i<num_kits; i++){
                     if (i<3)
@@ -304,11 +311,32 @@ Date: 2017-09-04
                 else if (this.equipment.indexOf("Plasma Pistol")!==-1)
                     this.equipment[this.equipment.indexOf("Plasma Pistol")]="Blaster";
             }
-            
+
+            // Modify stats to account for skill chips and cyber gear
+            if (this.equipment.indexOf("Cyberfoot")!==-1)
+                this.move = this.move+1;
+            if (this.equipment.indexOf("Cyberhand")!==-1)
+                this.hands = this.hands+1;
+            if (this.equipment.indexOf("Skeletal Enhancement")!==-1)
+                this.carry = this.carry+10;
+            if (this.equipment.indexOf("Combat Skill Chip")!==-1)
+                this.skills[1]= this.skills[1]+1;
+            if (this.equipment.indexOf("Engineering Skill Chip")!==-1)
+                this.skills[2]= this.skills[2]+1;
+            if (this.equipment.indexOf("Piloting Skill Chip")!==-1)
+                this.skills[3]= this.skills[3]+1;
+            if (this.equipment.indexOf("Science Skill Chip")!==-1)
+                this.skills[4]= this.skills[4]+1;
+            if (this.equipment.indexOf("Athletics Skill Chip")!==-1){
+                this.skills[0]= this.skills[0]+1;
+                this.carry = this.carry+10;
+            }
+
+            this.max_hp = this.hp_base+this.skills[0]+parseInt(this.rank);
+                
         };
 
-        print(){
-            
+        print(){            
             var sheet = '<div class="row"><div class="col-sm-12"><span class="label '+this.label+'">Profession</span> '+this.profession+'</div></div>';
             sheet+= '<div class="row"><div class="col-sm-12">Species: '+this.species+'</div></div>';
             sheet += '<div class="row"><div class="col-sm-2"><span class="label label-default">HP</span></div>' +
@@ -316,7 +344,7 @@ Date: 2017-09-04
             '<div class="col-sm-2"><span class="label label-default">Hands</span></div>'+
             '<div class="col-sm-2"><span class="label label-default">Tgt</span></div>'+
             '<div class="col-sm-2"><span class="label label-default">Carry</span></div></div>'+
-            '<div class="row"><div class="col-sm-2 text-center">'+ this.hp_base + '</div>'+
+            '<div class="row"><div class="col-sm-2 text-center">'+ this.max_hp + '</div>'+
             '<div class="col-sm-2 text-center">'+this.move+'</div>'+
             '<div class="col-sm-2 text-center">'+this.hands+'</div>'+
             '<div class="col-sm-2 text-center">'+this.target_number+'</div>'+
@@ -414,9 +442,21 @@ Date: 2017-09-04
             enemies_list.push(new Character(species,SPECIES[species],md,profession_tracker[i%4],enemy_skills));
         }
         $("#enemiesDiv").empty();
+        var result = '';
         for (var j=0; j<enemies_list.length;j++){
-            $("#enemiesDiv").append('<div class="col-sm-offset-1 col-sm-3" style="border: 1px solid black">'+enemies_list[j].print()+'</div>');
+            //Build rows
+            if (j%3==0)
+                result+='<div class="row">';
+            
+            result += '<div class="col-sm-offset-1 col-sm-3" style="border: 1px solid black">';
+            result += '<div class="row"><div class="col-sm-12">Enemy #'+(j+1).toString()+'</div></div>';
+            result += enemies_list[j].print()+'</div>';
+            
+            if (j%3==2)
+                result+='</div><div style="margin-top:5px"></div>';
         }
+        
+        $("#enemiesDiv").append(result);
         return false;
 
 
