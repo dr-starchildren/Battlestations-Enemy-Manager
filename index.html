@@ -134,14 +134,20 @@ Date: 2017-09-04
     const MD10 = {"2":[3,9,8], "3":[3,9,9], "4":[4,9,8], "5":[4,9,9], "6":[5,9,7], "7":[5,9,8], "8":[5,9,9], "9":[6,9,6], "10":[6,9,7], "11":[6,9,8], "12":[6,9,9]};
 
     // Athletics Tables
-    const ATH1 = {"2":["Sonic Beam","Kit","g"],"3":["Needler","Kit"],"4":["Slug Gun","Kit"],"5":["Ion Bore","g"],"6":["Disintegrator","Scope"],"7":["Blaster","Kit","g"],"8":["Laser", "Kit"],"9":["Nerve Disruptor","Kit"],"10":["Particle Gun","Kit"],"11":["Voltrex"],"12":["Plasma Pistol","gggg"]};
-    const ATH2 = {"2":["Knife","Stun","Kit"],"3":["Sword","ggg"],"4":["Kit","Flyntlock","Flyntlock","EMP grenade"],"5":["VibraKnife","Kit","g"],"6":["Phase Pick"],"7":["Butt","Kit","g"],"8":["Energy Blade","gg"],"9":["Plasma Dagger","Kit"],"10":["Arc Laser","ggg"],"11":["EMP pistol"],"12":["Lightning Rod","Kit"]};
+    const ATH1 = {"2":["Sonic Beam","Kit","g"],"3":["Needler","Kit"],"4":["Slug Gun","Kit"],"5":["Ion Bore","g"],
+    "6":["Disintegrator","Scope"],"7":["Blaster","Kit","g"],"8":["Laser", "Kit"],"9":["Nerve Disruptor","Kit"],
+    "10":["Particle Gun","Kit"],"11":["Voltrex"],"12":["Plasma Pistol","gggg"]};
+    const ATH2 = {"2":["Knife","Stun","Kit"],"3":["Sword","ggg"],"4":["Kit","Flyntlock","Flyntlock","EMP Grenade"],
+    "5":["VibraKnife","Kit","g"],"6":["Phase Pick"],"7":["Butt","Kit","g"],"8":["Energy Blade","gg"],
+    "9":["Plasma Dagger","Kit"],"10":["Arc Laser","ggg"],"11":["EMP pistol"],"12":["Lightning Rod","Kit"]};
     const ATH3 = {"2":["MedJack","Aggro","Charme","Detox ","Dull","Equilout","FlyBoy","Numb ","Patches ","Roid","Stim","StunGone ","SupSci","TecKnow"],
-    "3":["Skeletal Enhancement","Slug Machine Gun"],"4":["Cyberfoot","Pro Chip"],"5":["Cybergyros"],
-    "6":["Cyberhand", "Pro Chip"],"7":["Autonurse","Pro Chip","gg"],
+    "3":["Skeletal Enhancement","Slug Machine Gun"],"4":["Cyberfoot","Pro Chip"],
+    "5":["Cybergyros"],"6":["Cyberhand", "Pro Chip"],"7":["Autonurse","Pro Chip","gg"],
     "8":["Athletics Skill Chip", "Combat Skill Chip", "Science Skill Chip", "Engineering Skill Chip", "Piloting Skill Chip", "MagBoots"],
-    "9":["Cyberhook","Pro Chip"],"10":["Kit","Pro Chip","Satchel Charge"],"11":["Skeletal Enhancement","Plasma Projector"],"12":["Butt","Kit"]};
-    const ATH4 = {"2":["Kit","Kit"],"3":["Kit","Kit"],"4":["Kit","Kit"],"5":["Kit","Kit"],"6":["Kit","Kit"],"7":["Kit","Kit"],"8":["Kit","Kit"],"9":["Kit","Kit"],"10":["Kit","Kit"],"11":["Kit","Kit"],"12":["Kit","Kit"]};
+    "9":["Cyberhook","Pro Chip"],"10":["Kit","Pro Chip","Satchel Charge"],
+    "11":["Skeletal Enhancement","Plasma Projector"],"12":["Butt","Kit"]};
+    const ATH4 = {"2":["Kit","Kit"],"3":["Kit","Kit"],"4":["Kit","Kit"],"5":["Kit","Kit"],"6":["Kit","Kit"],"7":["Kit","Kit"],
+    "8":["Kit","Kit"],"9":["Kit","Kit"],"10":["Kit","Kit"],"11":["Kit","Kit"],"12":["Kit","Kit"]};
     
     // Profession Kits
     const MARINE_KITS = ["Vibraknife","MedKit","JetPack","EVA","WristComp"];
@@ -332,6 +338,10 @@ Date: 2017-09-04
                 this.carry = this.carry+10;
             }
 
+            var  count = {}; 
+            this.equipment.forEach(function(i) { count[i] = (count[i]||0)+1;  });
+            this.equipment = count;
+
             this.max_hp = this.hp_base+this.skills[0]+parseInt(this.rank);
                 
         };
@@ -359,8 +369,19 @@ Date: 2017-09-04
             '<div class="col-sm-2 text-center">'+ this.skills[2] +'</div>'+
             '<div class="col-sm-2 text-center">'+ this.skills[3] +'</div>'+
             '<div class="col-sm-2 text-center">'+ this.skills[4] +'</div></div>'+
-            '<div class="row"><div class="col-sm-12"><span class="label label-default">Equipment</span></div></div>' +
-            '<div class="row"><div class="col-sm-12">'+this.equipment.join(", ")+'</div></div>';
+            '<div class="row"><div class="col-sm-12"><span class="label label-default">Equipment</span></div></div>';
+            
+            sheet += '<div class="row"><div class="col-sm-12">';
+            for (var item in this.equipment){
+                if (this.equipment[item] >1 )
+                    sheet+=item + ' x ' + this.equipment[item] +', ';
+                else
+                    sheet+=item + ', ';
+            };
+            sheet = sheet.slice(0,-2);
+
+            sheet+='</div></div>';
+            //this.equipment.join(", ")+'</div></div>';
             return sheet;
         };
     };
