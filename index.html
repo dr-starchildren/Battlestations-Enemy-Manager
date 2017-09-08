@@ -115,7 +115,7 @@ Date: 2017-09-04
     </div>
 </form>
 
-<div id="enemiesDiv">
+<div id="enemiesDiv" class="container">
 
 </div>
     
@@ -470,7 +470,7 @@ Date: 2017-09-04
                 result+='<div class="row">';
             
             result += '<div class="col-sm-offset-1 col-sm-3" style="border: 1px solid black">';
-            result += '<div class="row"><div class="col-sm-12">Enemy #'+(j+1).toString()+'</div></div>';
+            result += '<div class="row-fluid"><div class="col-sm-12">Enemy #'+(j+1).toString()+'</div></div>';
             result += enemies_list[j].print()+'</div>';
             
             if (j%3==2)
