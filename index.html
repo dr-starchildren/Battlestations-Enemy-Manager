@@ -26,6 +26,18 @@ Date: 2017-09-04
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <style>
+        .custombtn{
+            border:0px solid transparent;
+            margin-left: 0;
+           }
+        .rolled{
+            font-size: large;
+            border: 1px solid black;
+            text-align: center;
+            width: 10 px;
+        }
+  </style>
 </head>
 <body>
 
@@ -153,7 +165,7 @@ Date: 2017-09-04
     const MARINE_KITS = ["Vibraknife","MedKit","JetPack","EVA","WristComp"];
     const SCI_KITS = ["MedKit","JetPack","ToolKit","EVA","WristComp"];
     const ENG_KITS = ["ToolKit","JetPack","MedKit","EVA","WristComp"];
-    const PILOT_KITS = ["JetPack",",ToolKit","MedKit","EVA","WristComp"];
+    const PILOT_KITS = ["JetPack","ToolKit","MedKit","EVA","WristComp"];
     const GRENADES = ["Frag Grenade", "Energy Grenade", "EMP Grenade", "Stun Grenade", "Fritzer Grenade"];
 
     const SPECIES = {"Bot":[4,8,1,4,0],"Blootian":[0,7,5,6,0],"Canosian":[8,8,9999,5,0],"Diploid":[4,8,2,3,1], "Fungaloid":[8,9,2,4,0],"Human":[5,8,2,5,1],"Kerbite":[5,9,5,6,1],
@@ -346,30 +358,39 @@ Date: 2017-09-04
                 
         };
 
-        print(){            
-            var sheet = '<div class="row"><div class="col-sm-12"><span class="label '+this.label+'">Profession</span> '+this.profession+'</div></div>';
-            sheet+= '<div class="row"><div class="col-sm-12">Species: '+this.species+'</div></div>';
-            sheet += '<div class="row"><div class="col-sm-2"><span class="label label-default">HP</span></div>' +
-            '<div class="col-sm-2"><span class="label label-default">Move</span></div>'+
-            '<div class="col-sm-2"><span class="label label-default">Hands</span></div>'+
-            '<div class="col-sm-2"><span class="label label-default">Tgt</span></div>'+
-            '<div class="col-sm-2"><span class="label label-default">Carry</span></div></div>'+
-            '<div class="row"><div class="col-sm-2 text-center">'+ this.max_hp + '</div>'+
-            '<div class="col-sm-2 text-center">'+this.move+'</div>'+
-            '<div class="col-sm-2 text-center">'+this.hands+'</div>'+
-            '<div class="col-sm-2 text-center">'+this.target_number+'</div>'+
-            '<div class="col-sm-2 text-center">'+this.carry+'</div></div>';
-            sheet+='<div class="row"><div class="col-sm-2"><span class="label label-default">Ath</span></div>'+
-            '<div class="col-sm-2"><span class="label label-default">Com</span></div>' +
-            '<div class="col-sm-2"><span class="label label-default">Eng</span></div>' +
-            '<div class="col-sm-2"><span class="label label-default">Pil</span></div>' +
-            '<div class="col-sm-2"><span class="label label-default">Sci</span></div></div>' +
-            '<div class="row"><div class="col-sm-2 text-center">'+ this.skills[0] +'</div>'+
-            '<div class="col-sm-2 text-center">'+ this.skills[1] +'</div>'+
-            '<div class="col-sm-2 text-center">'+ this.skills[2] +'</div>'+
-            '<div class="col-sm-2 text-center">'+ this.skills[3] +'</div>'+
-            '<div class="col-sm-2 text-center">'+ this.skills[4] +'</div></div>'+
-            '<div class="row"><div class="col-sm-12"><span class="label label-default">Equipment</span></div></div>';
+        print(enemy_number){            
+            var sheet = '<div class="row">'+
+                    '<div class="col-sm-8">'+
+                        '<div class="row"><div class="col-sm-8">Enemy #'+enemy_number+'</div></div>'+
+                        '<div class="row"><div class="col-sm-8"><span class="label '+this.label+'">Profession</span> '+this.profession+'</div></div>'+
+                        '<div class="row"><div class="col-sm-8">Species: '+this.species+'</div></div>'+
+                    '</div>'+
+                    '<div class="col-sm-4" id="enemy'+enemy_number+'">Click a skill to roll 2d6</div></div>';
+            sheet += '<div class="row">'+
+                '<div class="col-sm-2 text-center"><span class="label label-default">HP</span></br>'+ this.max_hp +'</div>' +
+                '<div class="col-sm-2 text-center"><span class="label label-default">Move</span></br>'+ this.move +'</div>'+
+                '<div class="col-sm-2 text-center"><span class="label label-default">Hands</span></br>'+ this.hands +'</div>'+
+                '<div class="col-sm-2 text-center"><span class="label label-default">Tgt</span></br>'+ this.target_number +'</div>'+
+                '<div class="col-sm-2 text-center"><span class="label label-default">Carry</span></br>'+ this.carry +'</div>'+
+                '</div>';
+            sheet+='<div class="row">'+
+                        '<div class="col-sm-2 text-center roll" data-num="'+enemy_number+'" data-skill="Ath" data-val="'+this.skills[0]+'">'+
+                            '<button class="custombtn btn-default"><span class="label label-default">Ath</span></br>'+ this.skills[0]+'</button>'
+                        +'</div>'+
+                        '<div class="col-sm-2 text-center roll" data-num="'+enemy_number+'" data-skill="Com" data-val="'+this.skills[1]+'">'+
+                                '<button class="custombtn btn-default"><span class="label label-default">Com</span></br>'+ this.skills[1]+'</button>'
+                        +'</div>'+
+                        '<div class="col-sm-2 text-center roll" data-num="'+enemy_number+'" data-skill="Eng" data-val="'+this.skills[2]+'">'+
+                                '<button class="custombtn btn-default"><span class="label label-default">Eng</span></br>'+ this.skills[2]+'</button>'
+                        +'</div>'+
+                        '<div class="col-sm-2 text-center roll" data-num="'+enemy_number+'" data-skill="Pil" data-val="'+this.skills[3]+'">'+
+                                '<button class="custombtn btn-default"><span class="label label-default">Pil</span></br>'+ this.skills[3]+'</button>'
+                        +'</div>'+
+                        '<div class="col-sm-2 text-center roll" data-num="'+enemy_number+'" data-skill="Sci" data-val="'+this.skills[4]+'">'+
+                                '<button class="custombtn btn-default"><span class="label label-default">Sci</span></br>'+ this.skills[4]+'</button>'
+                        +'</div>'+
+                '</div>'
+            sheet+='<div class="row"><div class="col-sm-12"><span class="label label-default">Equipment</span></div></div>';
             
             sheet += '<div class="row"><div class="col-sm-12">';
             for (var item in this.equipment){
@@ -381,7 +402,6 @@ Date: 2017-09-04
             sheet = sheet.slice(0,-2);
 
             sheet+='</div></div>';
-            //this.equipment.join(", ")+'</div></div>';
             return sheet;
         };
     };
@@ -398,7 +418,11 @@ Date: 2017-09-04
         return array;
     };
 
-    $('#submit').click(function(){
+    function die_roll(){
+        return (Math.floor(Math.random() * 6) + 1) + (Math.floor(Math.random() * 6) + 1);
+    };
+
+    $('#submit').on('click',function(){
         // Get the values in the form fields
         var md = document.getElementById("md").value;
         var players = document.getElementById("players").value;
@@ -407,7 +431,7 @@ Date: 2017-09-04
         var enemy_skills = [];
         
         // Roll 2d6
-        var roll = (Math.floor(Math.random() * 6) + 1) + (Math.floor(Math.random() * 6) + 1);
+        var roll = die_roll();
         roll = roll.toString();
         
         // Apply roll to the appropriate Mission Difficulty table to get enemy stats
@@ -469,9 +493,8 @@ Date: 2017-09-04
             if (j%3==0)
                 result+='<div class="row">';
             
-            result += '<div class="col-sm-offset-1 col-sm-3" style="border: 1px solid black">';
-            result += '<div class="row-fluid"><div class="col-sm-12">Enemy #'+(j+1).toString()+'</div></div>';
-            result += enemies_list[j].print()+'</div>';
+            result += '<div class="col-sm-4" style="border: 1px solid black">';
+            result += enemies_list[j].print((j+1).toString())+'</div>';
             
             if (j%3==2)
                 result+='</div><div style="margin-top:5px"></div>';
@@ -480,6 +503,19 @@ Date: 2017-09-04
         $("#enemiesDiv").append(result);
         return false;
 
+
+    });
+
+    $(document).on('click', '.roll', function(){
+        var skill = $(this).data('skill');
+        var value = $(this).data('val');
+        var enemy = $(this).data('num');
+        $("#enemy"+enemy).empty();
+        var r = die_roll() + parseInt(value)
+
+        var result = 'Rolled: '+skill+'<div class="rolled">'+r.toString()+'</div>'
+        $("#enemy"+enemy).append(result);
+        return false;
 
     });
 
