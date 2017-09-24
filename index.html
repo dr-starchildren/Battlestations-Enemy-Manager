@@ -16,40 +16,43 @@ GNU General Public License for more details.
 see <http://www.gnu.org/licenses/>
 
 Author: starchildren
-Date: 2017-09-04
+Date: 2017-09-24
 -->
 <html lang="en">
 <head>
   <title>Battlestations Enemy Manager</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
+  
   <style>
         .custombtn{
             border:0px solid transparent;
             margin-left: 0;
-           }
+        }
         .rolled{
             font-size: large;
             border: 1px solid black;
             text-align: center;
             width: 10 px;
         }
+        .row{
+            margin: 0px;
+            }
   </style>
 </head>
 <body>
-
-<div class="container-fluid">
+<div class="container-fluid" style="margin-top:10px">
   <h1>Battlestations Enemy Manager</h1>
 </div>
 
-<form class="form-horizontal">
-    <div class="form-group">
-        <label class="control-label col-sm-2" for="md">Mission Difficulty</label>
-        <div class="col-sm-2">
-            <select class="form-control" id="md">
+<div class="container-fluid" style="margin-bottom:10px">
+    <form class="form-inline">
+        <label class="form-control-label mr-sm-2 mb-0" for="md">Mission Difficulty</label>
+            <select class="form-control mr-sm-2 mb-0" id="md">
             <option>0</option>
             <option>1</option>
             <option>2</option>
@@ -62,12 +65,8 @@ Date: 2017-09-04
             <option>9</option>
             <option>10</option>
             </select>
-        </div>
-    </div>
-    <div class="form-group">
-        <label class="control-label col-sm-2" for="players">Number of Players</label>
-        <div class="col-sm-2">
-            <select class="form-control" id="players">
+        <label class="form-control-label mr-sm-2 mb-0" for="players">Number of Players</label>
+            <select class="form-control mr-sm-2 mb-0" id="players">
             <option>1</option>
             <option>2</option>
             <option>3</option>
@@ -79,58 +78,48 @@ Date: 2017-09-04
             <option>9</option>
             <option>10</option>
             </select>
-        </div>
-    </div>
-    <div class="form-group">
-        <label class="control-label col-sm-2" for="species">Enemy Species</label>
-        <div class="col-sm-2">
-            <select class="form-control" id="species">
-                <option>Bot</option>
-                <option>Blootian</option>
-                <option>Canosian</option>
-                <option>Diploid</option>
-                <option>Fungaloid</option>
-                <option>Human</option>
-                <option>Kerbite</option>
-                <option>Silicoid</option>
-                <option>Tentac</option>
-                <option>Trundlian</option>
-                <option>Vomeg</option>
-                <option>Whistler</option>
-                <option>Xeloxian</option>
-                <option>Zoallan</option>
-                <option>Avianoid</option>
-                <option>Cheetahoid</option>
-                <option>Crocodillian</option>
-                <option>Elephantoid</option>
-                <option>Felinoids</option>
-                <option>Gorilloids</option>
-                <option>Lupinoids</option>
-                <option>Lapinoid</option>
-                <option>Rhinoceroid</option>
-                <option>Reptilianoid</option>
-                <option>Testudinoid</option>
-                <option>Ursinoid</option>
+
+        <label class="form-control-label mr-sm-2 mb-0" for="species">Enemy Species</label>
+            <select class="form-control mr-sm-2 mb-0" id="species">
+                    <option>Bot</option>
+                    <option>Blootian</option>
+                    <option>Canosian</option>
+                    <option>Diploid</option>
+                    <option>Fungaloid</option>
+                    <option>Human</option>
+                    <option>Kerbite</option>
+                    <option>Silicoid</option>
+                    <option>Tentac</option>
+                    <option>Trundlian</option>
+                    <option>Vomeg</option>
+                    <option>Whistler</option>
+                    <option>Xeloxian</option>
+                    <option>Zoallan</option>
+                    <option>Avianoid</option>
+                    <option>Cheetahoid</option>
+                    <option>Crocodillian</option>
+                    <option>Elephantoid</option>
+                    <option>Felinoids</option>
+                    <option>Gorilloids</option>
+                    <option>Lupinoids</option>
+                    <option>Lapinoid</option>
+                    <option>Rhinoceroid</option>
+                    <option>Reptilianoid</option>
+                    <option>Testudinoid</option>
+                    <option>Ursinoid</option>
             </select>
+            <div class="form-check mr-sm-2 mb-0">
+                <label><input type="checkbox" value="" id="random_species">&nbsp;Pick Random Species?</label>
+            </div>
+        <div class="mr-sm-2 mb-0">
+            <button class="btn btn-secondary" id="submit">Submit</button>
         </div>
-    </div>
-    <div class="form-group">
-        <div class="col-sm-offset-2 col-sm-2">
-        <label><input type="checkbox" value="" id="random_species"> Pick Random Species?</label>
-        </div>
-    </div>
-
-    <div class="form-group">
-        <div class="col-sm-offset-2 col-sm-10">
-            <button class="btn btn-default" id="submit">Submit</button>
-        </div>
-    </div>
-</form>
-
-<div id="enemiesDiv" class="container">
-
+    </form>
 </div>
-    
+
+<div id="enemiesDiv" class="container-fluid" style="margin-bottom:10px">
+</div>
+
 <script>
     // Mission Difficulty Tables
     const MD0 = {"2":[1,2,0], "3":[1,2,0], "4":[1,2,0], "5":[1,2,0], "6":[1,2,0], "7":[1,2,0], "8":[1,2,0], "9":[1,2,0], "10":[1,2,0], "11":[1,2,0], "12":[1,2,0]};
@@ -191,19 +180,19 @@ Date: 2017-09-04
             
             if (profession==="Marine"){
 			    this.skills=[skills[0],skills[1],skills[2],skills[2],skills[2]];
-                this.label="label-danger";
+                this.label="badge-danger";
             }
 		    else if (profession==="Engineer"){
     			this.skills=[skills[0],skills[2],skills[1],skills[2],skills[2]];
-                this.label="label-primary";
+                this.label="badge-primary";
             }
             else if (profession==="Pilot"){
     			this.skills=[skills[0],skills[2],skills[2],skills[1],skills[2]];
-                this.label="label-warning";
+                this.label="badge-warning";
             }
 	    	else if (profession==="Scientist"){
     			this.skills=[skills[0],skills[2],skills[2],skills[2],skills[1]];
-                this.label="label-success";
+                this.label="badge-success";
             }
 
             this.carry = skills[0]*10;
@@ -362,35 +351,35 @@ Date: 2017-09-04
             var sheet = '<div class="row">'+
                     '<div class="col-sm-8">'+
                         '<div class="row"><div class="col-sm-8">Enemy #'+enemy_number+'</div></div>'+
-                        '<div class="row"><div class="col-sm-8"><span class="label '+this.label+'">Profession</span> '+this.profession+'</div></div>'+
+                        '<div class="row"><div class="col-sm-8"><span class="badge '+this.label+'">Profession</span> '+this.profession+'</div></div>'+
                         '<div class="row"><div class="col-sm-8">Species: '+this.species+'</div></div>'+
                     '</div>'+
                     '<div class="col-sm-4" id="enemy'+enemy_number+'">Click a skill to roll 2d6</div></div>';
             sheet += '<div class="row">'+
-                '<div class="col-sm-2 text-center"><span class="label label-default">HP</span></br>'+ this.max_hp +'</div>' +
-                '<div class="col-sm-2 text-center"><span class="label label-default">Move</span></br>'+ this.move +'</div>'+
-                '<div class="col-sm-2 text-center"><span class="label label-default">Hands</span></br>'+ this.hands +'</div>'+
-                '<div class="col-sm-2 text-center"><span class="label label-default">Tgt</span></br>'+ this.target_number +'</div>'+
-                '<div class="col-sm-2 text-center"><span class="label label-default">Carry</span></br>'+ this.carry +'</div>'+
+                '<div class="col-sm-2 text-center"><span class="badge badge-secondary">HP</span></br>'+ this.max_hp +'</div>' +
+                '<div class="col-sm-2 text-center"><span class="badge badge-secondary">Move</span></br>'+ this.move +'</div>'+
+                '<div class="col-sm-2 text-center"><span class="badge badge-secondary">Hands</span></br>'+ this.hands +'</div>'+
+                '<div class="col-sm-2 text-center"><span class="badge badge-secondary">Tgt</span></br>'+ this.target_number +'</div>'+
+                '<div class="col-sm-2 text-center"><span class="badge badge-secondary">Carry</span></br>'+ this.carry +'</div>'+
                 '</div>';
             sheet+='<div class="row">'+
                         '<div class="col-sm-2 text-center roll" data-num="'+enemy_number+'" data-skill="Ath" data-val="'+this.skills[0]+'">'+
-                            '<button class="custombtn btn-default"><span class="label label-default">Ath</span></br>'+ this.skills[0]+'</button>'
+                            '<button class="custombtn btn-light"><span class="badge badge-secondary">Ath</span></br>'+ this.skills[0]+'</button>'
                         +'</div>'+
                         '<div class="col-sm-2 text-center roll" data-num="'+enemy_number+'" data-skill="Com" data-val="'+this.skills[1]+'">'+
-                                '<button class="custombtn btn-default"><span class="label label-default">Com</span></br>'+ this.skills[1]+'</button>'
+                                '<button class="custombtn btn-light"><span class="badge badge-secondary">Com</span></br>'+ this.skills[1]+'</button>'
                         +'</div>'+
                         '<div class="col-sm-2 text-center roll" data-num="'+enemy_number+'" data-skill="Eng" data-val="'+this.skills[2]+'">'+
-                                '<button class="custombtn btn-default"><span class="label label-default">Eng</span></br>'+ this.skills[2]+'</button>'
+                                '<button class="custombtn btn-light"><span class="badge badge-secondary">Eng</span></br>'+ this.skills[2]+'</button>'
                         +'</div>'+
                         '<div class="col-sm-2 text-center roll" data-num="'+enemy_number+'" data-skill="Pil" data-val="'+this.skills[3]+'">'+
-                                '<button class="custombtn btn-default"><span class="label label-default">Pil</span></br>'+ this.skills[3]+'</button>'
+                                '<button class="custombtn btn-light"><span class="badge badge-secondary">Pil</span></br>'+ this.skills[3]+'</button>'
                         +'</div>'+
                         '<div class="col-sm-2 text-center roll" data-num="'+enemy_number+'" data-skill="Sci" data-val="'+this.skills[4]+'">'+
-                                '<button class="custombtn btn-default"><span class="label label-default">Sci</span></br>'+ this.skills[4]+'</button>'
+                                '<button class="custombtn btn-light"><span class="badge badge-secondary">Sci</span></br>'+ this.skills[4]+'</button>'
                         +'</div>'+
                 '</div>'
-            sheet+='<div class="row"><div class="col-sm-12"><span class="label label-default">Equipment</span></div></div>';
+            sheet+='<div class="row"><div class="col-sm-12"><span class="badge badge-secondary">Equipment</span></div></div>';
             
             sheet += '<div class="row"><div class="col-sm-12">';
             for (var item in this.equipment){
