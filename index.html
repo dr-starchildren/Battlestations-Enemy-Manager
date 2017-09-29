@@ -33,20 +33,22 @@ Date: 2017-09-24
             border:0px solid transparent;
             margin-left: 0;
         }
-        .rolled{
-            font-size: large;
-            border: 1px solid black;
-            text-align: center;
-            width: 10 px;
-        }
         .row{
             margin: 0px;
             }
   </style>
 </head>
 <body>
-<div class="container-fluid" style="margin-top:10px">
-  <h1>Battlestations Enemy Manager</h1>
+<div class="container-fluid" style="margin-top:10px; margin-bottom:10px">
+  <div class="row">
+        <div class="col-sm-6">
+            <h1>Battlestations Enemy Manager</h1>
+        </div>
+        <div class="col-sm-6" style="font-size:small; margin-top:10px">
+                To roll dice for enemies, click on a skill. </br>
+                For professional re-rolls, click on a single die.
+        </div>
+  </div>
 </div>
 
 <div class="container-fluid" style="margin-bottom:10px">
@@ -349,12 +351,12 @@ Date: 2017-09-24
 
         print(enemy_number){            
             var sheet = '<div class="row">'+
-                    '<div class="col-sm-8">'+
-                        '<div class="row"><div class="col-sm-8">Enemy #'+enemy_number+'</div></div>'+
-                        '<div class="row"><div class="col-sm-8"><span class="badge '+this.label+'">Profession</span> '+this.profession+'</div></div>'+
-                        '<div class="row"><div class="col-sm-8">Species: '+this.species+'</div></div>'+
+                    '<div class="col-sm-6">'+
+                        '<div class="row"><div class="col-sm-12">Enemy #'+enemy_number+'</div></div>'+
+                        '<div class="row"><div class="col-sm-12"><span class="badge '+this.label+'">'+this.profession+'</span></div></div>'+
+                        '<div class="row"><div class="col-sm-12">Species: '+this.species+'</div></div>'+
                     '</div>'+
-                    '<div class="col-sm-4" id="enemy'+enemy_number+'">Click a skill to roll 2d6</div></div>';
+                    '<div class="col-sm-6 mr-auto" id="enemy'+enemy_number+'">Click a skill to roll 2d6</div></div>';
             sheet += '<div class="row">'+
                 '<div class="col-sm-2 text-center"><span class="badge badge-secondary">HP</span></br>'+ this.max_hp +'</div>' +
                 '<div class="col-sm-2 text-center"><span class="badge badge-secondary">Move</span></br>'+ this.move +'</div>'+
@@ -363,23 +365,23 @@ Date: 2017-09-24
                 '<div class="col-sm-2 text-center"><span class="badge badge-secondary">Carry</span></br>'+ this.carry +'</div>'+
                 '</div>';
             sheet+='<div class="row">'+
-                        '<div class="col-sm-2 text-center roll" data-num="'+enemy_number+'" data-skill="Ath" data-val="'+this.skills[0]+'">'+
-                            '<button class="custombtn btn-light"><span class="badge badge-secondary">Ath</span></br>'+ this.skills[0]+'</button>'
+                        '<div class="col-sm-2 text-center rollskill" data-num="'+enemy_number+'" data-skill="Ath" data-val="'+this.skills[0]+'">'+
+                            '<button class="custombtn btn-default"><span class="badge badge-secondary">Ath</span></br>'+ this.skills[0]+'</button>'
                         +'</div>'+
-                        '<div class="col-sm-2 text-center roll" data-num="'+enemy_number+'" data-skill="Com" data-val="'+this.skills[1]+'">'+
-                                '<button class="custombtn btn-light"><span class="badge badge-secondary">Com</span></br>'+ this.skills[1]+'</button>'
+                        '<div class="col-sm-2 text-center rollskill" data-num="'+enemy_number+'" data-skill="Com" data-val="'+this.skills[1]+'">'+
+                                '<button class="custombtn btn-default"><span class="badge badge-secondary">Com</span></br>'+ this.skills[1]+'</button>'
                         +'</div>'+
-                        '<div class="col-sm-2 text-center roll" data-num="'+enemy_number+'" data-skill="Eng" data-val="'+this.skills[2]+'">'+
-                                '<button class="custombtn btn-light"><span class="badge badge-secondary">Eng</span></br>'+ this.skills[2]+'</button>'
+                        '<div class="col-sm-2 text-center rollskill" data-num="'+enemy_number+'" data-skill="Eng" data-val="'+this.skills[2]+'">'+
+                                '<button class="custombtn btn-default"><span class="badge badge-secondary">Eng</span></br>'+ this.skills[2]+'</button>'
                         +'</div>'+
-                        '<div class="col-sm-2 text-center roll" data-num="'+enemy_number+'" data-skill="Pil" data-val="'+this.skills[3]+'">'+
-                                '<button class="custombtn btn-light"><span class="badge badge-secondary">Pil</span></br>'+ this.skills[3]+'</button>'
+                        '<div class="col-sm-2 text-center rollskill" data-num="'+enemy_number+'" data-skill="Pil" data-val="'+this.skills[3]+'">'+
+                                '<button class="custombtn btn-default"><span class="badge badge-secondary">Pil</span></br>'+ this.skills[3]+'</button>'
                         +'</div>'+
-                        '<div class="col-sm-2 text-center roll" data-num="'+enemy_number+'" data-skill="Sci" data-val="'+this.skills[4]+'">'+
-                                '<button class="custombtn btn-light"><span class="badge badge-secondary">Sci</span></br>'+ this.skills[4]+'</button>'
+                        '<div class="col-sm-2 text-center rollskill" data-num="'+enemy_number+'" data-skill="Sci" data-val="'+this.skills[4]+'">'+
+                                '<button class="custombtn btn-default"><span class="badge badge-secondary">Sci</span></br>'+ this.skills[4]+'</button>'
                         +'</div>'+
                 '</div>'
-            sheet+='<div class="row"><div class="col-sm-12"><span class="badge badge-secondary">Equipment</span></div></div>';
+            sheet+='<div class="row"><div class="col-sm-3 text-center"><span class="badge badge-secondary">Equipment</span></div></div>';
             
             sheet += '<div class="row"><div class="col-sm-12">';
             for (var item in this.equipment){
@@ -407,8 +409,12 @@ Date: 2017-09-24
         return array;
     };
 
-    function die_roll(){
-        return (Math.floor(Math.random() * 6) + 1) + (Math.floor(Math.random() * 6) + 1);
+    function die_roll(num_dice){
+        var d = []
+        for (var i=0; i< num_dice; i++){
+            d.push(Math.floor(Math.random() * 6) + 1);
+        }
+        return d;
     };
 
     $('#submit').on('click',function(){
@@ -420,8 +426,8 @@ Date: 2017-09-24
         var enemy_skills = [];
         
         // Roll 2d6
-        var roll = die_roll();
-        roll = roll.toString();
+        var roll = die_roll(2);
+        roll = (roll[0] + roll[1]).toString();
         
         // Apply roll to the appropriate Mission Difficulty table to get enemy stats
         switch(md){
@@ -480,13 +486,13 @@ Date: 2017-09-24
         for (var j=0; j<enemies_list.length;j++){
             //Build rows
             if (j%3==0)
-                result+='<div class="row">';
+                result+='<div class="row" style="margin-top:10px">';
             
             result += '<div class="col-sm-4" style="border: 1px solid black">';
             result += enemies_list[j].print((j+1).toString())+'</div>';
             
             if (j%3==2)
-                result+='</div><div style="margin-top:5px"></div>';
+                result+='</div>';
         }
         
         $("#enemiesDiv").append(result);
@@ -495,19 +501,49 @@ Date: 2017-09-24
 
     });
 
-    $(document).on('click', '.roll', function(){
+    $(document).on('click', '.rollskill', function(){
         var skill = $(this).data('skill');
         var value = $(this).data('val');
-        var enemy = $(this).data('num');
-        $("#enemy"+enemy).empty();
-        var r = die_roll() + parseInt(value)
+        var enemy_number = $(this).data('num');
+        $("#enemy"+enemy_number).empty();
+        var roll = die_roll(2);
+        var total = roll[0] + roll[1] + parseInt(value);
 
-        var result = 'Rolled: '+skill+'<div class="rolled">'+r.toString()+'</div>'
-        $("#enemy"+enemy).append(result);
+        var result = '<div class="row"><div class="col-sm-12">Rolled: '+skill+'</div></div>'+
+        '<div class="row">'+
+                '<div class="col-sm-1 text-center" style="font-size:small">skill</br><div class="text-center" id="'+enemy_number+'skill" data-val="'+value+'" style="font-size:large">'+value+'</div></div>'+
+                '<div class="col-sm-1 text-center" style="font-size:small"></br>+</div>'+
+                '<div class="col-sm-1 text-center" style="font-size:small">d1</br><div class="rolldie text-center" id="'+enemy_number+'die1" data-val="'+roll[0].toString()+'" style="font-size:large"><button class="custombtn btn-default">'+roll[0].toString()+'</button></div></div>'+
+                '<div class="col-sm-1 text-center" style="font-size:small"></br>+</div>'+
+                '<div class="col-sm-1 text-center" style="font-size:small">d2</br><div class="rolldie text-center" id="'+enemy_number+'die2" data-val="'+roll[1].toString()+'" style="font-size:large"><button class="custombtn btn-default">'+roll[1].toString()+'</button></div></div>'+
+                '<div class="col-sm-1 text-center" style="font-size:small"></br>=</div>'+
+                '<div class="col-sm-1 text-center" id="'+enemy_number+'total" style="font-size:x-large">'+total.toString()+'</div>'+
+            '</div>'
+        $("#enemy"+enemy_number).append(result);
         return false;
 
     });
 
+    $(document).on('click', '.rolldie', function(event){
+        var die = $(this).attr('id');
+        enemy_number = die.charAt(0);
+        var otherdie ='';
+        if(die.substr(1,)==="die1")
+            otherdie="#"+enemy_number+"die2";
+        else otherdie="#"+enemy_number+"die1";
+        die = "#"+die;
+
+        $(die).empty();
+        var roll = die_roll(1);
+        $(die).data('val', roll[0].toString());
+        $(die).append('<button class="custombtn btn-default">'+roll[0].toString()+'</button>');
+        $("#"+enemy_number+"total").empty();
+        $("#"+enemy_number+"total").append( (parseInt($("#"+enemy_number+"skill").data('val')) + parseInt($(otherdie).data('val')) + roll[0]).toString() );
+
+        return false;
+    });
+
+    
 </script>
 </body>
 </html>
