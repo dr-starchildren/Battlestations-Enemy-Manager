@@ -1,7 +1,7 @@
 # Battlestations Enemy Manager
 This html and javascript is designed to generate enemies for Battlestations: Second Edition.
 
-![bem1](https://user-images.githubusercontent.com/26799052/30787273-eec9018c-a152-11e7-9640-9fc38a0d3659.jpg)
+![bem1](https://user-images.githubusercontent.com/26799052/30998788-01a01508-a49f-11e7-84b3-db50e9ea28af.jpg)
 
 Select the Mission Difficulty (MD), number of players, and enemy species (or check randomize).
 
